@@ -1,0 +1,106 @@
+﻿== Q1  Airline scorecard (view v_carrier_scorecard)
+ rank | carrier |           airline           | flights | on_time_pct | cancelled_pct | avg_arr_delay 
+------+---------+-----------------------------+---------+-------------+---------------+---------------
+    1 | VX      | Virgin America              |    5162 |        81.2 |           0.6 |           1.8
+    2 | DL      | Delta Air Lines Inc.        |   48110 |        81.0 |           0.7 |           1.6
+    3 | AA      | American Airlines Inc.      |   32729 |        79.3 |           1.9 |           0.4
+    4 | US      | US Airways Inc.             |   20536 |        79.2 |           3.2 |           2.1
+    5 | UA      | United Air Lines Inc.       |   58665 |        77.0 |           1.2 |           3.6
+    6 | WN      | Southwest Airlines Co.      |   12275 |        73.7 |           1.6 |           9.6
+    7 | B6      | JetBlue Airways             |   54635 |        73.1 |           0.9 |           9.5
+    8 | 9E      | Endeavor Air Inc.           |   18460 |        70.3 |           5.7 |           7.4
+    9 | MQ      | Envoy Air                   |   26397 |        69.2 |           4.7 |          10.8
+   10 | EV      | ExpressJet Airlines Inc.    |   54173 |        64.8 |           5.2 |          15.8
+   11 | FL      | AirTran Airways Corporation |    3260 |        64.7 |           2.2 |          20.1
+
+== Q2  Delays build up through the day
+ hour | flights | avg_dep_delay | delayed_pct 
+------+---------+---------------+-------------
+    5 |    1953 |           0.7 |         9.9
+    6 |   25951 |           1.6 |        11.1
+    7 |   22821 |           1.9 |        11.2
+    8 |   27242 |           4.1 |        15.4
+    9 |   20312 |           4.6 |        16.1
+   10 |   16708 |           6.5 |        17.4
+   11 |   16033 |           7.2 |        17.4
+   12 |   18181 |           8.6 |        19.4
+   13 |   19956 |          11.4 |        22.4
+   14 |   21706 |          13.8 |        24.9
+   15 |   23888 |          16.9 |        28.5
+   16 |   23002 |          18.8 |        28.2
+   17 |   24426 |          21.1 |        31.6
+   18 |   21783 |          21.1 |        31.6
+   19 |   21441 |          24.8 |        32.6
+   20 |   16739 |          24.3 |        33.3
+   21 |   10933 |          24.2 |        35.1
+   22 |    2639 |          18.8 |        32.1
+   23 |    1061 |          14.0 |        29.0
+
+== Q3  Season: delays and cancellations by month
+ month  | flights | avg_arr_delay | cancelled_pct 
+--------+---------+---------------+---------------
+ 01 Jan |   27004 |           6.1 |          1.93
+ 02 Feb |   24951 |           5.6 |          5.05
+ 03 Mar |   28834 |           5.8 |          2.99
+ 04 Apr |   28330 |          11.2 |          2.36
+ 05 May |   28796 |           3.5 |          1.96
+ 06 Jun |   28243 |          16.5 |          3.57
+ 07 Jul |   29425 |          16.7 |          3.19
+ 08 Aug |   29327 |           6.0 |          1.66
+ 09 Sep |   27574 |          -4.0 |          1.64
+ 10 Oct |   28889 |          -0.2 |          0.82
+ 11 Nov |   27268 |           0.5 |          0.85
+ 12 Dec |   28135 |          14.9 |          3.64
+
+== Q4  Weather at the origin airport in the departure hour
+   visibility    |  precip   | flights | avg_dep_delay | cancelled_pct 
+-----------------+-----------+---------+---------------+---------------
+ 1 fog (<1 mi)   | dry       |    2874 |          28.3 |           6.1
+ 1 fog (<1 mi)   | rain/snow |    1101 |          34.0 |          16.3
+ 2 haze (1-5 mi) | dry       |    6680 |          18.4 |           5.6
+ 2 haze (1-5 mi) | rain/snow |    8360 |          27.7 |           9.2
+ 3 clear (5+ mi) | dry       |  302664 |          11.1 |           1.9
+ 3 clear (5+ mi) | rain/snow |   13541 |          32.7 |           7.2
+
+== Q5  Plane age (only planes present in planes.csv)
+ age_years | flights | avg_arr_delay 
+-----------+---------+---------------
+ 0-4       |   28357 |           4.4
+ 5-9       |   76456 |           8.5
+ 10-14     |  107406 |           8.3
+ 15-19     |   29130 |           5.0
+ 20+       |   37515 |           4.1
+
+== Q6  Ten most delayed routes (365+ flights a year)
+ origin | dest |          destination          | distance_mi | flights | avg_arr_delay | rank 
+--------+------+-------------------------------+-------------+---------+---------------+------
+ EWR    | RIC  | Richmond Intl                 |         277 |    1667 |          25.8 |    1
+ EWR    | MKE  | General Mitchell Intl         |         725 |    1094 |          24.0 |    2
+ EWR    | DSM  | Des Moines Intl               |        1017 |     411 |          23.5 |    3
+ EWR    | PWM  | Portland Intl Jetport         |         284 |     770 |          23.0 |    4
+ JFK    | CMH  | Port Columbus Intl            |         483 |     742 |          22.9 |    5
+ EWR    | DCA  | Ronald Reagan Washington Natl |         199 |    1719 |          21.3 |    6
+ EWR    | ROC  | Greater Rochester Intl        |         246 |     513 |          20.7 |    7
+ EWR    | MCI  | Kansas City Intl              |        1092 |    1356 |          20.2 |    8
+ EWR    | MEM  | Memphis Intl                  |         946 |     926 |          19.9 |    9
+ LGA    | CAK  | Akron Canton Regional Airport |         397 |     864 |          19.7 |   10
+
+== Q7  Knock-on delays: same plane, previous NYC departure that day
+     previous_leg      | flights | avg_dep_delay 
+-----------------------+---------+---------------
+ 1 prev on time        |   64924 |          12.6
+ 2 prev 16-60 min late |   10398 |          35.1
+ 3 prev 60+ min late   |    3933 |          84.1
+
+== Q7b Correlation between previous arrival delay and this departure delay
+   r   
+-------
+ 0.375
+
+== Q8  Do pilots make up time in the air? (minutes gained = dep_delay - arr_delay)
+        haul         | flights | gained_when_late | gained_all 
+---------------------+---------+------------------+------------
+ 1 short (<500 mi)   |   76668 |              2.3 |        4.0
+ 2 medium (500-1500) |  178724 |              3.3 |        5.1
+ 3 long (1500+)      |   71954 |              6.9 |        8.8
+

@@ -1,0 +1,58 @@
+﻿== D1  Index: find every flight flown by one plane
+-- before: no index on tailnum, so PostgreSQL reads all 336,776 rows
+                           QUERY PLAN                           
+----------------------------------------------------------------
+ Gather (actual rows=575.00 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   Buffers: shared hit=3840
+   ->  Parallel Seq Scan on flight (actual rows=191.67 loops=3)
+         Filter: ((tailnum)::text = 'N725MQ'::text)
+         Rows Removed by Filter: 112067
+         Buffers: shared hit=3840
+ Planning:
+   Buffers: shared hit=142
+
+-- after: the index jumps straight to the matching rows
+                                 QUERY PLAN                                 
+----------------------------------------------------------------------------
+ Bitmap Heap Scan on flight (actual rows=575.00 loops=1)
+   Recheck Cond: ((tailnum)::text = 'N725MQ'::text)
+   Heap Blocks: exact=568
+   Buffers: shared hit=568 read=3
+   ->  Bitmap Index Scan on idx_flight_tailnum (actual rows=575.00 loops=1)
+         Index Cond: ((tailnum)::text = 'N725MQ'::text)
+         Index Searches: 1
+         Buffers: shared read=3
+ Planning:
+   Buffers: shared hit=65 read=1
+
+== D2  Trigger: cancel a flight and the status follows
+ flight_id | flight_date | carrier | flight_no | dep_time | arr_delay | status  
+-----------+-------------+---------+-----------+----------+-----------+---------
+         1 | 2013-01-01  | UA      |      1545 |      517 |        11 | On time
+
+ flight_id | flight_date | carrier | flight_no | dep_time | arr_delay |  status   
+-----------+-------------+---------+-----------+----------+-----------+-----------
+         1 | 2013-01-01  | UA      |      1545 |          |           | Cancelled
+
+== D3  Integrity: the database refuses bad rows
+== D4  Function: July scorecard
+ carrier | flights | on_time_pct | avg_arr_delay 
+---------+---------+-------------+---------------
+ AS      |      62 |        87.1 |         -15.7
+ HA      |      31 |        80.6 |           3.0
+ AA      |    2882 |        75.2 |           4.3
+ VX      |     489 |        72.0 |          22.7
+ UA      |    5066 |        71.5 |          10.7
+ WN      |    1076 |        71.5 |          14.8
+ US      |    1786 |        69.8 |           9.9
+ DL      |    4251 |        69.4 |          14.9
+ B6      |    4984 |        61.0 |          23.3
+ EV      |    4641 |        60.7 |          21.7
+ MQ      |    2261 |        58.3 |          22.7
+ 9E      |    1494 |        55.2 |          23.8
+ FL      |     263 |        51.3 |          45.0
+ YV      |      81 |        50.6 |          27.8
+ F9      |      58 |        50.0 |          36.4
+
